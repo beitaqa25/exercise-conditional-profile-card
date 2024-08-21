@@ -33,22 +33,22 @@ function renderProfileCard(props) {
           <div class="social-media ${socialMediaPosition}">
               ${
                 twitter
-                  ? `<a href="https://twitter.com/${twitter}">Twitter</a>`
+                  ? `<a href="https://twitter.com/${twitter}" target="_blank"><i class="fab fa-twitter"></i></a>`
                   : ""
               }
               ${
                 github
-                  ? `<a href="https://github.com/${github}">GitHub</a>`
+                  ? `<a href="https://github.com/${github}" target="_blank"><i class="fab fa-github"></i></a>`
                   : ""
               }
               ${
                 linkedin
-                  ? `<a href="https://linkedin.com/in/${linkedin}">LinkedIn</a>`
+                  ? `<a href="https://linkedin.com/in/${linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a>`
                   : ""
               }
               ${
                 instagram
-                  ? `<a href="https://instagram.com/${instagram}">Instagram</a>`
+                  ? `<a href="https://instagram.com/${instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`
                   : ""
               }
           </div>
@@ -57,29 +57,40 @@ function renderProfileCard(props) {
 }
 
 function render(variables = {}) {
-  console.log("These are the current variables: ", variables); // print on the console
-  // here we ask the logical questions to make decisions on how to build the html
-  // if includeCover==false then we reset the cover code without the <img> tag to make the cover transparent.
-  let cover = `<div class="cover"><img src="${variables.background}" /></div>`;
-  if (variables.includeCover == false) cover = "<div class='cover'></div>";
+  console.log("These are the current variables: ", variables);
 
-  // reset the website body with the new html output
-  document.querySelector("#widget_content").innerHTML = `<div class="widget">
-            ${cover}
-          <img src="${variables.avatarURL}" class="photo" />
-          <h1>Lucy Boilett</h1>
-          <h2>Web Developer</h2>
-          <h3>Miami, USA</h3>
-          <ul class="position-right">
-            <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/school/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://instagram.com/4geeksacademy"><i class="fab fa-instagram"></i></a></li>
-          </ul>
-        </div>
-    `;
+  // Genera el contenido de la tarjeta usando la función renderProfileCard
+  const profileCardHtml = renderProfileCard(variables);
+
+  // Inserta el HTML generado en el contenedor de contenido
+  document.querySelector("#widget_content").innerHTML = `
+    <div class="widget">
+      ${profileCardHtml}
+      <ul class="position-right">
+        ${
+          variables.twitter
+            ? `<li><a href="https://twitter.com/${variables.twitter}" target="_blank"><i class="fab fa-twitter"></i></a></li>`
+            : ""
+        }
+        ${
+          variables.github
+            ? `<li><a href="https://github.com/${variables.github}" target="_blank"><i class="fab fa-github"></i></a></li>`
+            : ""
+        }
+        ${
+          variables.linkedin
+            ? `<li><a href="https://linkedin.com/in/${variables.linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a></li>`
+            : ""
+        }
+        ${
+          variables.instagram
+            ? `<li><a href="https://instagram.com/${variables.instagram}" target="_blank"><i class="fab fa-instagram"></i></a></li>`
+            : ""
+        }
+      </ul>
+    </div>
+  `;
 }
-
 /**
  * Don't change any of the lines below, here is where we do the logic for the dropdowns
  */
@@ -88,7 +99,8 @@ window.onload = function() {
     // if includeCover is true the algorithm should show the cover image
     includeCover: true,
     // this is the image's url that will be used as a background for the profile cover
-    background: "https://images.unsplash.com/photo-1511974035430-5de47d3b95da",
+    background:
+      "https://cdn.pixabay.com/photo/2016/06/02/02/33/triangles-1430105_640.png",
     // this is the url for the profile avatar
     avatarURL: "https://randomuser.me/api/portraits/women/42.jpg",
     // social media bar position (left or right)
