@@ -1,27 +1,61 @@
 import "../style/index.css";
 
-/**
- *  EDIT ONLY INSIDE THIS RENDER FUNCTION
- *  This function is called every time the user changes types or changes any input
- * 
-    {
-        includeCover: true, // if includeCover is true the algorithm should show the cover image
-        background: "https://images.unsplash.com/photo-1511974035430-5de47d3b95da", // this is the image's url that will be used as a background for the profile cover
-        avatarURL: "https://randomuser.me/api/portraits/women/42.jpg", // this is the url for the profile avatar
-        socialMediaPosition: "right", // social media bar position (left or right)
-        
-        twitter: null, // social media usernames
-        github: null,
-        linkedin: null,
-        instagram: null,
+function renderProfileCard(props) {
+  const {
+    includeCover,
+    background,
+    avatarURL,
+    socialMediaPosition,
+    twitter,
+    github,
+    linkedin,
+    instagram,
+    name,
+    lastName,
+    role,
+    country,
+    city
+  } = props;
 
-        name: null,
-        lastName: null,
-        role: null,
-        country: null,
-        city: null
-    }
- */
+  return `
+      <div class="profile-card">
+          ${
+            includeCover
+              ? `<div class="cover" style="background-image: url(${background});"></div>`
+              : ""
+          }
+          <div class="avatar" style="background-image: url(${avatarURL});"></div>
+          <div class="info">
+              <h1>${name || "First Name"} ${lastName || "Last Name"}</h1>
+              <h2>${role || "Role"}</h2>
+              <p>${city || "City"}, ${country || "Country"}</p>
+          </div>
+          <div class="social-media ${socialMediaPosition}">
+              ${
+                twitter
+                  ? `<a href="https://twitter.com/${twitter}">Twitter</a>`
+                  : ""
+              }
+              ${
+                github
+                  ? `<a href="https://github.com/${github}">GitHub</a>`
+                  : ""
+              }
+              ${
+                linkedin
+                  ? `<a href="https://linkedin.com/in/${linkedin}">LinkedIn</a>`
+                  : ""
+              }
+              ${
+                instagram
+                  ? `<a href="https://instagram.com/${instagram}">Instagram</a>`
+                  : ""
+              }
+          </div>
+      </div>
+  `;
+}
+
 function render(variables = {}) {
   console.log("These are the current variables: ", variables); // print on the console
   // here we ask the logical questions to make decisions on how to build the html
